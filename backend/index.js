@@ -18,6 +18,7 @@ const ExpressError = require("./ExpressError.js");
 const wrapAsync = require("./utils/wrapasync.js");
 const Product = require("./models/productmodel.js");
 const MongoStore = require("connect-mongo");
+const path = require("path");
 // port
 const port = 8080;
 const dburl = process.env.DB_URL;
@@ -29,6 +30,8 @@ main()
 async function main() {
   await mongoose.connect(dburl);
 }
+
+app.use(express.static(path.join(__dirname, 'build')));
 
 const store = MongoStore.create({
   mongoUrl: dburl,
