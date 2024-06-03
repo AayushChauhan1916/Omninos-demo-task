@@ -12,37 +12,35 @@ const session = require("express-session");
 const LocalStrategy = require("passport-local");
 const authenicationRouter = require("./routes/authentication.js");
 const adminRouter = require("./routes/admin.js");
-const cartRouter = require("./routes/cart.js")
+const cartRouter = require("./routes/cart.js");
 const { storage } = require("./cloudconfig.js");
 const ExpressError = require("./ExpressError.js");
 const wrapAsync = require("./utils/wrapasync.js");
-const Product = require('./models/productmodel.js');
-const MongoStore = require('connect-mongo');
+const Product = require("./models/productmodel.js");
+const MongoStore = require("connect-mongo");
 // port
 const port = 8080;
-const dburl = process.env.DB_URL
-
+const dburl = process.env.DB_URL;
 
 // connection
 main()
   .then(() => console.log("connected to mongo"))
   .catch((err) => console.log("failed to connect" + err));
-  async function main() {
+async function main() {
   await mongoose.connect(dburl);
 }
 
 const store = MongoStore.create({
   mongoUrl: dburl,
   crypto: {
-    secret: 'krishna'
+    secret: "krishna",
   },
-  touchAfter: 24 * 3600
-})
+  touchAfter: 24 * 3600,
+});
 
-store.on("error",()=>{
-  console.log("error occure in mongo store")
-})
-
+store.on("error", () => {
+  console.log("error occure in mongo store");
+});
 
 const sessionOption = {
   store,
@@ -85,37 +83,38 @@ app.post("/api/admin/upload", upload.single("image"), (req, res) => {
   res.json({
     success: 1,
     image_url: req.file.path,
-    image_filename: req.file.filename
+    image_filename: req.file.filename,
   });
 });
 
 // routes
-app.get("/newcollection",wrapAsync(async(req,res)=>{
-  const product = await Product.find()
-  const  newcollection = product.slice(-8);
-  res.send(newcollection)
-}))
+app.get(
+  "/newcollection",
+  wrapAsync(async (req, res) => {
+    const product = await Product.find();
+    const newcollection = product.slice(-8);
+    res.send(newcollection);
+  })
+);
 
-app.get("/fetchProduct",wrapAsync(async(req,res)=>{
-  const product = await Product.find();
-  res.send(product);
-}))
-
+app.get(
+  "/fetchProduct",
+  wrapAsync(async (req, res) => {
+    const product = await Product.find();
+    res.send(product);
+  })
+);
 
 app.use("/api", authenicationRouter);
 app.use("/api/admin", adminRouter);
-app.use("/api/cart",cartRouter)
-
-app.all("*",(req,res,next)=>{
-  next(new ExpressError(false,400,"page not found"))
-})
+app.use("/api/cart", cartRouter);
 
 app.use((error, req, res, next) => {
-  let{statusCode=500,message="something went wrong"} = error
+  let { statusCode = 500, message = "something went wrong" } = error;
   res.status(statusCode).json({
-    success:false,
-    message:message,
-  })
+    success: false,
+    message: message,
+  });
 });
 
 app.listen(port, (err) => {
