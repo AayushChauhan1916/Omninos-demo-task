@@ -20,7 +20,7 @@ function navbar() {
 
   const logout = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/logout", {
+      const response = await fetch("/api/logout", {
         method: "GET",
         credentials: "include",
         headers: {

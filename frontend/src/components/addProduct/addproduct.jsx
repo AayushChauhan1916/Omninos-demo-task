@@ -41,7 +41,7 @@ const AddProduct = () => {
       theme: "light",
     });
 
-    await fetch("http://localhost:8080/api/admin/upload", {
+    await fetch("/api/admin/upload", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -59,7 +59,7 @@ const AddProduct = () => {
       // console.log(responseData);
       product.image = responseData.image_url;
       product.filename = responseData.image_filename;
-      await fetch("http://localhost:8080/api/admin/addproduct", {
+      await fetch("/api/admin/addproduct", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -111,9 +111,9 @@ const AddProduct = () => {
   return (
     <>
       <p className="disclaimer">
-        <b>Disclaimer</b>&nbsp; I just want to show the functionality of adding product
-        using multer and cloudinary as per question that is why i implement it
-        here without proctecting it(Authentication).{" "}
+        <b>Disclaimer</b>&nbsp; I just want to show the functionality of adding
+        product using multer and cloudinary as per question that is why i
+        implement it here without proctecting it(Authentication).{" "}
       </p>
       <div className="main">
         <div className="add-product">

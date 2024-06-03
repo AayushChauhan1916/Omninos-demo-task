@@ -20,43 +20,42 @@ const ShopContextProvider = (props) => {
   const [user, setUser] = useState(null);
 
   // cart fetch
-  useEffect(()=>{
-    if(user){
-        fetch("http://localhost:8080/api/cart/getcart",{
-            method:"POST",
-            credentials:"include",
-            headers:{
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body:""
-        }).then((res)=>{
-            return res.json()
-        }).then((data)=>{
-            setCartItem(data.cart)
+  useEffect(() => {
+    if (user) {
+      fetch("/api/cart/getcart", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: "",
+      })
+        .then((res) => {
+          return res.json();
         })
+        .then((data) => {
+          setCartItem(data.cart);
+        });
     }
-  },[user])
+  }, [user]);
 
   // fetch user
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8080/api/login/success",
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch("/api/login/success", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
         if (response.ok) {
           const data = await response.json();
-          console.log("User Logged IN")
+          console.log("User Logged IN");
           setUser(data);
         } else {
           console.log("User Not Logged IN");
@@ -73,12 +72,9 @@ const ShopContextProvider = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8080/api/admin/allproducts",
-          {
-            method: "GET",
-          }
-        );
+        const response = await fetch("/api/admin/allproducts", {
+          method: "GET",
+        });
         const data = await response.json();
         // console.log(data)
         if (data) {
@@ -97,7 +93,7 @@ const ShopContextProvider = (props) => {
       return { ...preVal, [itemId]: preVal[itemId] + 1 };
     });
     if (user) {
-      fetch("http://localhost:8080/api/cart/addtocart", {
+      fetch("/api/cart/addtocart", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -120,7 +116,7 @@ const ShopContextProvider = (props) => {
       return { ...preVal, [itemId]: preVal[itemId] - 1 };
     });
     if (user) {
-      fetch("http://localhost:8080/api/cart/removetocart", {
+      fetch("/api/cart/removetocart", {
         method: "POST",
         credentials: "include",
         headers: {

@@ -13,10 +13,7 @@ const LoginSignUp = () => {
 
   const onSubmit = async (data) => {
     try {
-      const url =
-        state === "Login"
-          ? "http://localhost:8080/api/login"
-          : "http://localhost:8080/api/signup";
+      const url = state === "Login" ? "/api/login" : "/api/signup";
       const response = await fetch(url, {
         method: "POST",
         credentials: "include",
