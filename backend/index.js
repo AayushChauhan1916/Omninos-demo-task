@@ -90,8 +90,6 @@ app.post("/api/admin/upload", upload.single("image"), (req, res) => {
   });
 });
 
-
-
 // routes
 app.get(
   "/newcollection",
@@ -114,10 +112,6 @@ app.use("/api", authenicationRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/cart", cartRouter);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
 app.use((error, req, res, next) => {
   let { statusCode = 500, message = "something went wrong" } = error;
   res.status(statusCode).json({
@@ -125,7 +119,6 @@ app.use((error, req, res, next) => {
     message: message,
   });
 });
-
 
 app.listen(port, (err) => {
   if (!err) {
