@@ -112,10 +112,6 @@ app.use("/api", authenicationRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/cart", cartRouter);
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
-});
-
 app.use((error, req, res, next) => {
   let { statusCode = 500, message = "something went wrong" } = error;
   res.status(statusCode).json({
