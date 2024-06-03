@@ -31,7 +31,7 @@ async function main() {
   await mongoose.connect(dburl);
 }
 
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.resolve(__dirname, "dist")));
 
 const store = MongoStore.create({
   mongoUrl: dburl,
